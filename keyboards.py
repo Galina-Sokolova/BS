@@ -9,26 +9,28 @@ back_inline_button = InlineKeyboardButton(text='Назад', callback_data='Canc
 cancel_messages_ikb.add(back_inline_button)
 
 ikb_start = InlineKeyboardMarkup(row_width=2)
-ib1 = InlineKeyboardButton(text='Палитра', callback_data='Палитра')
-ib2 = InlineKeyboardButton(text='Свободные слоты', callback_data='Слоты')
+ib1 = InlineKeyboardButton(text='Палитра', url="http://glsml.pythonanywhere.com/")
+ib2 = InlineKeyboardButton(text='Записаться к мастеру', callback_data='Слоты')
 ib3 = InlineKeyboardButton(text='Прайс на услуги', callback_data='Прайс')
 ib4 = InlineKeyboardButton(text='Важная информация', callback_data='Информация')
-ib5 = InlineKeyboardButton(text='Наш сайт', url="http://crystal-spa.ru/index.php")
-ib6 = InlineKeyboardButton(text='Отменить запись', callback_data='Отмена записи')
+ib5 = InlineKeyboardButton(text='Наш сайт', url="http://glsml.pythonanywhere.com/")
+ib6 = InlineKeyboardButton(text='Отменить запись', callback_data='Отменить запись')
 ikb_start.add(ib1, ib2).add(ib3).add(ib4, ib5).add(ib6)
-
-
 
 months_list = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август',
                'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 days_months = [0]
 current_year = datetime.now().year
 for i in range(1, 13):
-    days_months.append(monthrange(current_year, i)[1])#заполняем список правильным количеством дней
+    days_months.append(monthrange(current_year, i)[1])  # заполняем список правильным количеством дней
 
 back_inline_button = InlineKeyboardButton(text='Назад', callback_data='Cancel')
 
-def gen_ikb_months():  # создается клавиатура месяцев в текст попадает название месяца а в callback - номер месяца
+
+def gen_ikb_months():
+    '''
+    Создание клавиатуры месяцев
+    '''
     ikb_months = InlineKeyboardMarkup()
     for i in range(datetime.now().month, 13):
         ikb_months.add(InlineKeyboardButton(text=months_list[i], callback_data=months_list[i]))
@@ -37,14 +39,20 @@ def gen_ikb_months():  # создается клавиатура месяцев 
 
 
 def gen_ikb_days(name_month):
+    '''
+    Создание клавиатуры с днями месяца
+    '''
     ikb_days = InlineKeyboardMarkup(row_width=5)
-    for i in range(1, days_months[months_list.index(name_month)]+1):
+    for i in range(1, days_months[months_list.index(name_month)] + 1):
         ikb_days.add(InlineKeyboardButton(text=i, callback_data=i))
     ikb_days.add(back_inline_button)
     return ikb_days
 
 
 def gen_time_ikb(times):
+    '''
+    Создание клавиатуры времени
+    '''
     ikb_times = InlineKeyboardMarkup(row_width=3)
     for time in times:
         ikb_times.add(InlineKeyboardButton(text=time, callback_data=time))

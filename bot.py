@@ -38,7 +38,8 @@ async def start_command(message: types.Message):
     '''
     await bot.send_photo(chat_id=message.chat.id,
                          photo=open('resourсes/images/start.jpg', 'rb'),
-                         caption='Добро пожаловать в нашу студию!',
+                         caption='<i><strong>Добро пожаловать в нашу студию ногтевого сервиса!</strong></i>',
+                         parse_mode='HTML',
                          reply_markup=ikb_start)
     await message.delete()
 
@@ -62,6 +63,16 @@ async def info(callback: types.CallbackQuery):
                                 '9-00 - 22-00  '
                                 'без перерывов и выходных'
                            )
+
+
+@dp.callback_query_handler(text='Прайс')
+async def price(callback: types.CallbackQuery):
+    '''
+    Обработчик кнопки "Прайс на услуги"
+    '''
+    await bot.send_photo(chat_id=callback['message']['chat']['id'],
+                         photo=open('resourсes/images/price.jpg', 'rb')
+                         )
 
 
 @dp.callback_query_handler(text='Слоты')
@@ -96,7 +107,9 @@ async def get_telephone_numbers(msg: types.Message):
     '''
     Функция обработки введенного телефонного номера при отмене записи
     '''
-    if is_valid_tel_number(msg.text):
+    data = msg.text
+    if data := is_valid_tel_number(data):
+        msg.text = data
         await send_data_masters(msg)
     else:
         await msg.reply('Некорректный номер телефона, повторите ввод')

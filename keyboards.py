@@ -32,7 +32,7 @@ def gen_ikb_months():
     Создание клавиатуры месяцев
     '''
     ikb_months = InlineKeyboardMarkup()
-    for i in range(datetime.now().month, 13):
+    for i in range(datetime.now().month, datetime.now().month + 2):
         ikb_months.add(InlineKeyboardButton(text=months_list[i], callback_data=months_list[i]))
     ikb_months.add(back_inline_button)
     return ikb_months

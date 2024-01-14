@@ -1,11 +1,7 @@
-from __future__ import print_function
-import os.path
-
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
+from oauth2client.service_account import ServiceAccountCredentials
+import os
+import httplib2
 from googleapiclient.discovery import build
-
 from config import ID_SPREADSHEET
 
 
@@ -14,20 +10,13 @@ class GoogleTable:
     SAMPLE_SPREADSHEET_ID = ID_SPREADSHEET
 
     def __init__(self):
-        creds = None
-        if os.path.exists('token.json'):
-            creds = Credentials.from_authorized_user_file('token.json', GoogleTable.SCOPES)
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', GoogleTable.SCOPES)
-                creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            with open('token.json', 'w') as token:
-                token.write(creds.to_json())
-        self.service = build('sheets', 'v4', credentials=creds)  # Создаём Service-объект, для работы с Google-таблицами
+        self.service = self.get_service_sacc()
+
+    def get_service_sacc(self):
+        creds_json = os.path.dirname(__file__) + "/creds/sacc1.json"
+        scopes = ['https://www.googleapis.com/auth/spreadsheets']
+        creds_service = ServiceAccountCredentials.from_json_keyfile_name(creds_json, scopes).authorize(httplib2.Http())
+        return build('sheets', 'v4', http=creds_service)
 
     def getData(self, work_sheet, range_name):
         '''

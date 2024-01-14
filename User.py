@@ -43,9 +43,9 @@ async def load_telephone_number(message: Message, state: FSMContext):
     Ожидание ввода телефонного номера
     '''
     data = message.text  # хранится номер телефона - str
-    if is_valid_tel_number(data):
-        await state.update_data(tel=data)
+    if data := is_valid_tel_number(data):
         client = await get_client(data)  # получи кортеж
+        await state.update_data(tel=data)
         if client:  # если кортеж не пустой, значит правда
             await state.update_data(name=client[1])  # 1позиция это имя фамилия клиента
             await state.set_state(FSMUserProfile.record_date_month)  # Устанавливаем состояние ожидания ввода месяца
@@ -67,7 +67,6 @@ async def load_name(message: Message, state: FSMContext):
     await message.answer(messages[FSMUserProfile.record_date_month.state], reply_markup=gen_ikb_months())  #
 
 
-# фукнция будет вызываться 3 раза для месяца, дня, времени
 google_table = GoogleTable()
 times = {}
 
@@ -105,7 +104,7 @@ async def load_date_month(callback: CallbackQuery, state: FSMContext):  # Заг
     data = callback.data
     user_state_data = await state.get_data()  # получаем данные из буффера в виде словаря
     selected_date = {'month': data}
-    await state.update_data(date=selected_date)  # ?????????????
+    await state.update_data(date=selected_date)
     await state.set_state(FSMUserProfile.record_date_day)
     await callback.message.edit_text(messages[FSMUserProfile.record_date_day.state])
     await callback.message.edit_reply_markup(reply_markup=gen_ikb_days(data))
@@ -164,10 +163,10 @@ async def load_date_time(callback: CallbackQuery, state: FSMContext):
         if (user_state_data['master'][0], user_state_data['tel']) not in await get_data_masters_and_clients(
                 user_state_data['tel']):
             await connect_client_By_master_db(user_state_data['master'][0], user_state_data['tel'])
-        await callback.message.reply(f'''Вы успешно записаны к мастеру!
-               \nМесяц:{user_state_data['date']['month']}
-               \nЧисло:{user_state_data['date']['day']}
-               \nВремя:{user_state_data['date']['time']}
+        await callback.message.reply(f'''{user_state_data['name']}, Вы успешно записаны к мастеру {user_state_data['master'][1]}!
+               \nМесяц: {user_state_data['date']['month']}
+               \nЧисло: {user_state_data['date']['day']}
+               \nВремя: {user_state_data['date']['time']}
                ''')
         await state.finish()
 
@@ -176,4 +175,8 @@ def is_valid_tel_number(message):
     '''
     Проверка валидности номера телефона
     '''
-    return re.match(r'[+]?[78]{1}\d{10}', message)
+    if re.match(r'[+]?[78]{1}\d{10}$', message):
+        if '+' in message:
+            message = "8" + message[2:]
+        return message
+    return False

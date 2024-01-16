@@ -24,8 +24,12 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="c377ad72-665f-4728-9d23-ac0690d0573a" dataset="main.clients" active-filter-id="2a5a2fba-72fd-4377-bd3b-e460ac3f4f64">
-      <filter id="2a5a2fba-72fd-4377-bd3b-e460ac3f4f64" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+      <filter id="2a5a2fba-72fd-4377-bd3b-e460ac3f4f64" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
+    <filter-actions connection-id="c377ad72-665f-4728-9d23-ac0690d0573a" dataset="main.masters_and_clients" active-filter-id="2d35b274-5da7-4116-8cd2-4fb1e1f0f72c">
+      <filter id="2d35b274-5da7-4116-8cd2-4fb1e1f0f72c" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="c377ad72-665f-4728-9d23-ac0690d0573a" dataset="main.sqlite_sequence" active-filter-id="" />
     <filter-actions connection-id="c377ad72-665f-4728-9d23-ac0690d0573a" dataset="main.masters" active-filter-id="594c7b0f-5da5-41ab-b903-d3512da7eb49">
       <filter id="594c7b0f-5da5-41ab-b903-d3512da7eb49" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>

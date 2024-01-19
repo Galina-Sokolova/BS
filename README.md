@@ -72,3 +72,27 @@ _Введение_
 _Заключение_ 
 
 _Список используемой литературы_ 
+
+- Telegram-бот доступен по адресу: https://t.me/PtichkaBeauty_bot 
+
+## Запуск проекта
+
+- клонировать репозиторий
+
+```bash
+git clone https://github.com/Galina-Sokolova/BS.git
+```
+
+- в файле config.py прописать константу TOKEN_BOT='token', вместо token вставить токен своего телеграм-бота
+- необходимо уставить пакетный менеджер pipenv
+```bash
+pip install pipenv
+```
+- активировать виртуальное окружение
+```bash
+pipenv shell
+```
+- установить в виртуальное окружение все зависимости
+```bash
+pip install -r requirements.txt
+```

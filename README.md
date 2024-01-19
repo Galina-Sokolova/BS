@@ -82,8 +82,9 @@ _Список используемой литературы_
 ```bash
 git clone https://github.com/Galina-Sokolova/BS.git
 ```
-
-- в файле config.py прописать константу TOKEN_BOT='token', вместо token вставить токен своего телеграм-бота
+- в папке BS создать файл config.py
+- в файле config.pyпрописать константу TOKEN_BOT='token', вместо token вставить токен своего телеграм-бота
+- прописать константу ID_SPREADSHEET='id google sheet', вместо id google sheet вставить id  своей гугл таблицы
 - необходимо уставить пакетный менеджер pipenv
 ```bash
 pip install pipenv
